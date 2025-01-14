@@ -1,0 +1,5 @@
+﻿string message = "Ocr Message:";
+foreach (var msg in readed) {
+    message += "\n" + msg;
+}
+MessageBox.Show(message);
