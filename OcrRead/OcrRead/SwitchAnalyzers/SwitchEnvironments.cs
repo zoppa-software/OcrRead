@@ -1,10 +1,5 @@
 ﻿using SwitchAnalyzers.Tokens;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SwitchAnalyzers
 {
@@ -129,13 +124,22 @@ namespace SwitchAnalyzers
         /// <summary>解析結果。</summary>
         public sealed class Result
         {
+            /// <summary>スイッチリスト。</summary>
             private readonly Dictionary<string, List<List<string>>> switches;
 
+            /// <summary>パラメータリスト。</summary>
             private readonly List<string> parameters = new List<string>();
 
+            /// <summary>コンストラクタ。</summary>
+            /// <param name="swts">スイッチリスト。</param>
+            /// <param name="used">使用済みフラグ。</param>
+            /// <param name="tokens">トークンリスト。</param>
             public Result(Dictionary<string, List<List<string>>> swts, bool[] used, List<IToken> tokens)
             {
+                // スイッチリストを設定
                 this.switches = swts;
+
+                // パラメータリストを設定
                 for (var i = used.Length - 1; i >= 0; --i) {
                     if (!used[i] && tokens[i].TokenType == TokenType.Identifier) {
                         this.parameters.Add(tokens[i].Contents);
@@ -147,21 +151,36 @@ namespace SwitchAnalyzers
                 this.parameters.Reverse();
             }
 
+            /// <summary>スイッチが存在するかどうかを取得します。</summary>
+            /// <param name="cname">単一文字スイッチ。</param>
+            /// <param name="wname">文字列スイッチ。</param>
+            /// <returns>存在したら真。</returns>
             public bool HasSwitch(char cname, string wname)
             {
                 return this.HasSwitch(cname) || this.HasSwitch(wname);
             }
 
+            /// <summary>スイッチが存在するかどうかを取得します。</summary>
+            /// <param name="name">単一文字スイッチ。</param>
+            /// <returns>存在したら真。</returns>
             public bool HasSwitch(char name)
             {
                 return this.HasSwitch(name.ToString());
             }
 
+            /// <summary>スイッチが存在するかどうかを取得します。</summary>
+            /// <param name="name">文字列スイッチ。</param>
+            /// <returns>存在したら真。</returns>
             public bool HasSwitch(string name)
             {
                 return this.switches.ContainsKey(name);
             }
 
+            /// <summary>スイッチの値を取得します。</summary>
+            /// <param name="cname">単一文字スイッチ。</param>
+            /// <param name="wname">文字列スイッチ。</param>
+            /// <returns>スイッチの値</returns>
+            /// <exception cref="KeyNotFoundException">スイッチ無しの場合のエラー。</exception>
             public List<List<string>> GetSwitchValue(char cname, string wname)
             {
                 if (this.HasSwitch(cname)) {
@@ -170,18 +189,27 @@ namespace SwitchAnalyzers
                 if (this.HasSwitch(wname)) {
                     return this.GetSwitchValue(wname);
                 }
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException("指定のスイッチがありません。");
             }
 
+            /// <summary>スイッチの値を取得します。</summary>
+            /// <param name="name">単一文字スイッチ。</param>
+            /// <returns>スイッチの値。</returns>
             public List<List<string>> GetSwitchValue(char name)
             {
                 return this.GetSwitchValue(name.ToString());
             }
 
+            /// <summary>スイッチの値を取得します。</summary>
+            /// <param name="name">文字列スイッチ。</param>
+            /// <returns>スイッチの値。</returns>
             public List<List<string>> GetSwitchValue(string name)
             {
                 return this.switches[name];
             }
+
+            /// <summary>パラメータリストを取得します。</summary>
+            public List<string> Parameters => new List<string>(this.parameters);
         }
     }
 }

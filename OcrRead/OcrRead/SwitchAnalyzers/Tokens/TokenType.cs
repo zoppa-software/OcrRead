@@ -1,5 +1,6 @@
 ﻿namespace SwitchAnalyzers.Tokens
 {
+    /// <summary>トークンの種類を表します。</summary>
     public enum TokenType
     {
         /// <summary>不明なトークン。</summary>

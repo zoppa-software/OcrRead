@@ -124,11 +124,9 @@
             this.DocCtrl.Location = new System.Drawing.Point(0, 74);
             this.DocCtrl.Name = "DocCtrl";
             this.DocCtrl.OcrLayout = null;
-            this.DocCtrl.Rectangles = ((System.Collections.Generic.List<System.Drawing.Rectangle>)(resources.GetObject("DocCtrl.Rectangles")));
             this.DocCtrl.Size = new System.Drawing.Size(464, 637);
             this.DocCtrl.TabIndex = 0;
             this.DocCtrl.Text = "documentControl1";
-            this.DocCtrl.Zoom = 1D;
             // 
             // MainForm
             // 

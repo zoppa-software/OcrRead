@@ -22,6 +22,7 @@ namespace OcrReadGUI
         public MainForm()
         {
             InitializeComponent();
+            this.DoubleBuffered = true;
             this.logger = Program.Logger;
         }
 
